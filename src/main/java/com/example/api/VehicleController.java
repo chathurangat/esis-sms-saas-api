@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class VehicleController {
 
-    @CrossOrigin(origins = "http://localhost:3000")
+//    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @GetMapping("/vehicles")
     public VehicleDetailsResponse getVehicleDetails(@RequestParam("vehicle-number") String vehicleNumber) {
 
