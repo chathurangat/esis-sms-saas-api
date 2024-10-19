@@ -1,25 +1,33 @@
 package com.example.api;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 public class VehicleController {
 
-//    @CrossOrigin(origins = "http://localhost:3000")
+    private final VehicleRepository vehicleRepository;
+
+    //    @CrossOrigin(origins = "http://localhost:3000")
     @CrossOrigin(origins = "*")
     @GetMapping("/vehicles")
     public VehicleDetailsResponse getVehicleDetails(@RequestParam("vehicle-number") String vehicleNumber) {
 
+        Vehicle vehicle = vehicleRepository.findByVehicleNumber(vehicleNumber).orElse(null);
+        if (vehicle == null) {
+            return VehicleDetailsResponse.builder().build();
+        }
         return VehicleDetailsResponse.builder()
-                .owner("Shanaka")
-                .vehicleNumber("DA-1234")
-                .vehicleType("Car")
-                .imageUrl("https://eu2.contabostorage.com/014d85f72af04deab35beb05d491b530:asda/img2.png")
-                .province("Western")
-                .city("Colombo")
-                .condition("NEW")
-                .fuelType("Electric")
-                .make("Toyota")
+                .owner(vehicle.getVehicleOwner())
+                .vehicleNumber(vehicle.getVehicleNumber())
+                .vehicleType(vehicle.getVehicleType())
+                .imageUrl(vehicle.getImageUrl())
+                .province(vehicle.getProvince())
+                .city(vehicle.getCity())
+                .condition(vehicle.getVehicleCondition())
+                .fuelType(vehicle.getFuelType())
+                .make(vehicle.getVehicleCondition())
                 .build();
     }
 }
